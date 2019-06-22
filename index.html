@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="styles/game.css" />
+    <script src="scripts/game.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <div id="header-block">
+            <div class="header-text">
+                <a href="https://www.twitter.com/danrush" target=_blank><span
+                        class="header-link-text">#PickMePhoebee</span></a>
+            </div>
+        </div>
+        <div id="header-fade"></div>
+    </div>
+    <div id="game">
+        <div id="grid-holder"></div>
+        <div id="game-controls">
+            <div id="game-timer" class="game-text">00:00:00</div>
+            <div id="game-start-button" class="game-text game-button">Beegin a Game</div>
+            <div id="game-reset-button" class="game-text game-button">Hive Another Go</div>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="footer-fade"></div>
+    </div>
+    <script>
+        createGrid();
+
+        $('#game-start-button').on('click', function () {
+            start();
+        });
+
+        $('#game-reset-button').on('click', function () {
+            reset();
+        });
+    </script>
+</body>
+
+</html>
