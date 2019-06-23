@@ -61,10 +61,119 @@ function getCharacters() {
         imageSrc: 'content/images/clara.png'
     });
 
+    characters.push({
+        id: 11,
+        name: 'Kartos',
+        imageSrc: 'content/images/kartos.png'
+    });
+    
+    characters.push({
+        id: 12,
+        name: 'Nimble',
+        imageSrc: 'content/images/nimble.png'
+    });
+
+    characters.push({
+        id: 13,
+        name: 'Inept',
+        imageSrc: 'content/images/inept.png'
+    });
+
+    characters.push({
+        id: 14,
+        name: 'Ann-Gree',
+        imageSrc: 'content/images/ann-gree.jpg'
+    });
+
+    characters.push({
+        id: 15,
+        name: 'Normy',
+        imageSrc: 'content/images/normy.jpg'
+    });
+
+    characters.push({
+        id: 16,
+        name: 'Evie',
+        imageSrc: 'content/images/evie.png'
+    });
+
+    characters.push({
+        id: 17,
+        name: 'Fee-Dee',
+        imageSrc: 'content/images/fee-dee.png'
+    });
+
+    characters.push({
+        id: 18,
+        name: 'Heidi',
+        imageSrc: 'content/images/heidi.png'
+    });
+
+    characters.push({
+        id: 19,
+        name: 'Lady Leapalot',
+        imageSrc: 'content/images/leapalot.png'
+    });
+
+    characters.push({
+        id: 20,
+        name: 'Lady Lootsalot',
+        imageSrc: 'content/images/lootsalot.png'
+    });
+
+    characters.push({
+        id: 21,
+        name: 'Sir Scoffsalot',
+        imageSrc: 'content/images/scoffsalot.jpg'
+    });
+
+    characters.push({
+        id: 22,
+        name: 'Sir Shootsalot',
+        imageSrc: 'content/images/shootsalot.png'
+    });
+
+    characters.push({
+        id: 23,
+        name: 'Corplet',
+        imageSrc: 'content/images/corplet.png'
+    });
+
     return characters;
 }
+function getCharactersForGame() {
+    var allCharacters = getCharacters();
+
+    var charactersForGame = [];
+
+    var characterCount = 0;
+
+    while(characterCount < 8) {
+        var randomIndex = Math.floor(Math.random() * (allCharacters.length));
+        var character = allCharacters[randomIndex];
+
+        var isAlreadyInPlay =  false;
+
+        for(var i = 0; i < charactersForGame.length; i++) {
+            var selectedCharacter = charactersForGame[i];
+
+            if(character.id === selectedCharacter.id) {
+                isAlreadyInPlay = true;
+            }
+        }
+
+        if(isAlreadyInPlay) {
+            continue;
+        }
+
+        charactersForGame.push(character);
+        characterCount++;        
+    }
+
+    return charactersForGame;
+}
 function getCharacterTiles() {
-    var characters = getCharacters();
+    var characters = getCharactersForGame();
 
     var addedCounts = {};
 
@@ -72,7 +181,7 @@ function getCharacterTiles() {
 
     var tileCount = 0;
 
-    while (tileCount < 20) {
+    while (tileCount < 16) {
         var randomIndex = Math.floor(Math.random() * (characters.length));
         var character = characters[randomIndex];
 
@@ -121,7 +230,7 @@ function isGameInProgress() {
     return window['game-in-progress'] === true;
 }
 function getRandomSoundPath() {
-    var randomSoundNumber = Math.floor(Math.random() * 10) + 1;
+    var randomSoundNumber = Math.floor(Math.random() * 14) + 1;
 
     var fileName = randomSoundNumber + '.wav';
 
@@ -136,17 +245,70 @@ function playRandomSound() {
 
     sound.play();
 }
+function doCharacterIdsMatch(firstTile, secondTile) {
+    var firstId = $(firstTile).attr('data-character-id');
+    var secondId = $(secondTile).attr('data-character-id');
+
+    return firstId === secondId;
+}
+function playWinSound() {
+    var filePath = 'content/sounds/win.wav';
+    var winSound = new Audio(filePath);
+    winSound.play();
+}
+function playSuccessfulMatchSound() {
+    var filePath = 'content/sounds/match.wav';
+    var matchSound = new Audio(filePath);
+    matchSound.play();
+}
+function win() {
+    setTimeout(function () {
+        stopTimer();
+        playWinSound();
+        showWinMessage();
+    }, 1000);
+}
+
 function checkMatch(selectedTiles) {
     setMatchChecking(true);
+
+    var selectedTiles = $('.selected-tile');
+
+    if(selectedTiles.length == 2) {
+        var firstTile = selectedTiles[0];
+        var secondTile = selectedTiles[1];
+
+        if(doCharacterIdsMatch(firstTile, secondTile)) {
+            $(firstTile).addClass('matched-tile');
+            $(secondTile).addClass('matched-tile');
+            playSuccessfulMatchSound();
+        } else {
+            playRandomSound();
+        }
+    } else {
+        playRandomSound();
+    }
+
+    var remainingTiles = $('.character-tile').not('.matched-tile');
+
+    var isGameComplete = remainingTiles.length === 0;
+
+    if(isGameComplete) {
+        win();
+        return;
+    }
 
     setTimeout(function () {
         var allTiles = $('.character-tile');
         allTiles.removeClass('selected-tile');
 
         setMatchChecking(false);
-    }, 1000);
+    }, 750);
 }
 function createGrid() {
+    setStartMessage();
+    setMatchChecking(false);
+
     var count = 4;
 
     var characterTiles = getCharacterTiles();
@@ -178,7 +340,9 @@ function createGrid() {
             return;
         }
 
-        playRandomSound();
+        if(selectedTile.is('.matched-tile')) {
+            return;
+        }
         
         selectedTile.addClass('selected-tile');
 
@@ -186,6 +350,8 @@ function createGrid() {
 
         if (selectedTiles.length > 1) {
             checkMatch(selectedTiles);
+        } else {
+            playRandomSound();
         }
     });
 }
@@ -232,6 +398,18 @@ function start() {
 }
 function stop() {
     window['game-in-progress'] = false;
+}
+function showWinMessage() {
+    clearGrid();
+
+    var winMessage = document.createElement('div');
+    winMessage.setAttribute('id', 'win-message-holder');
+    winMessage.appendChild(document.createTextNode('You\r\ndid\r\nbeeautifully!'));
+
+    $('#grid-holder').append(winMessage);
+}
+function setStartMessage() {
+    $('#message-holder').text('Some less than beenevolent foe has trapped Yooka, Laylee and company in a classic tile matching game.\r\nCan you buzzt them out? No Buddy Slam required!');
 }
 function reset() {
     stop();
