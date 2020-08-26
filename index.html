@@ -1,0 +1,140 @@
+<html>
+<head>
+<title>Lez's Birthday Challenge</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+#birthday-message {
+font-weight: 900;
+text-align: center;
+font-size: 52px;
+text-transform: uppercase;
+padding-bottom: 24px;
+}
+
+#answer-inputs {
+padding-left: 25%;
+padding-right: 25%;
+}
+
+#button-holder {
+text-align: center;
+}
+
+#image-holder {
+text-align: center;
+padding-top: 24px;
+}
+
+#trio-image {
+display: none;
+width: 40%;
+}
+</style>
+</head>
+<body>
+<div id="birthday-message"></div>
+
+<div id="answer-inputs">
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">1</span>
+  </div>
+  <input id="answer-1" type="text" class="form-control" placeholder="Answer 1">
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">2</span>
+  </div>
+  <input id="answer-2" type="text" class="form-control" placeholder="Answer 2">
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">3</span>
+  </div>
+  <input id="answer-3" type="text" class="form-control" placeholder="Answer 3">
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">4</span>
+  </div>
+  <input id="answer-4" type="text" class="form-control" placeholder="Answer 4">
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">5</span>
+  </div>
+  <input id="answer-5" type="text" class="form-control" placeholder="Answer 5">
+</div>
+</div>
+
+<div id="button-holder">
+<button id="check-answers-button" type="button" class="btn btn-primary">Check Answers</button>
+</div>
+
+<div id="image-holder">
+<img id="trio-image" src="trio.jpg" />
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script>
+function stringShift(str, shift){
+    return (str+'').replace(/[a-zA-Z]/gi,function(s){
+        return String.fromCharCode(s.charCodeAt(0)+(s.toLowerCase()<'n'?shift:-shift))
+    })
+}
+
+var finalMessage = 'We\'re going to Center Parcs';
+
+var firstMessage = stringShift(finalMessage, 5);
+$('#birthday-message').text(firstMessage);
+
+$('#check-answers-button').on('click', function() {
+var incorrectAnswers = 0;
+
+var firstAnswer = $('#answer-1').val();
+
+if(firstAnswer != 'y') {
+incorrectAnswers++;
+}
+
+var secondAnswer = $('#answer-2').val();
+
+if(secondAnswer != 'y') {
+incorrectAnswers++;
+}
+
+var thirdAnswer = $('#answer-3').val();
+
+if(thirdAnswer != 'y') {
+incorrectAnswers++;
+}
+
+var fourthAnswer = $('#answer-4').val();
+
+if(fourthAnswer != 'y') {
+incorrectAnswers++;
+}
+
+var fifthAnswer = $('#answer-5').val();
+
+if(fifthAnswer != 'y') {
+incorrectAnswers++;
+}
+
+var newMessage = stringShift(finalMessage, incorrectAnswers);
+$('#birthday-message').text(newMessage);
+
+if(incorrectAnswers === 0) {
+$('#trio-image').show();
+}
+});
+</script>
+</body>
+</html>
