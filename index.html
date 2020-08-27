@@ -90,6 +90,10 @@ function stringShift(str, shift){
     })
 }
 
+function cleanString(str) {
+return str.toLowerCase().replace(/\s/g, '');
+}
+
 var finalMessage = 'We\'re going to Center Parcs';
 
 var firstMessage = stringShift(finalMessage, 5);
@@ -98,33 +102,33 @@ $('#birthday-message').text(firstMessage);
 $('#check-answers-button').on('click', function() {
 var incorrectAnswers = 0;
 
-var firstAnswer = $('#answer-1').val();
+var firstAnswer = cleanString($('#answer-1').val());
 
-if(firstAnswer != 'y') {
+if(firstAnswer != 'whiskey' && firstAnswer != 'whisky') {
 incorrectAnswers++;
 }
 
-var secondAnswer = $('#answer-2').val();
+var secondAnswer = cleanString($('#answer-2').val());
 
-if(secondAnswer != 'y') {
+if(secondAnswer != '107') {
 incorrectAnswers++;
 }
 
-var thirdAnswer = $('#answer-3').val();
+var thirdAnswer = cleanString($('#answer-3').val());
 
-if(thirdAnswer != 'y') {
+if(thirdAnswer != 'zumba' && thirdAnswer != 'zumbar') {
 incorrectAnswers++;
 }
 
-var fourthAnswer = $('#answer-4').val();
+var fourthAnswer = cleanString($('#answer-4').val());
 
-if(fourthAnswer != 'y') {
+if(fourthAnswer != 'bulbasaur') {
 incorrectAnswers++;
 }
 
-var fifthAnswer = $('#answer-5').val();
+var fifthAnswer = cleanString($('#answer-5').val());
 
-if(fifthAnswer != 'y') {
+if(fifthAnswer != 'radiogaga') {
 incorrectAnswers++;
 }
 
