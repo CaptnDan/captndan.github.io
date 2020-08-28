@@ -111,7 +111,7 @@ incorrectAnswers++;
 var secondAnswer = cleanString($('#answer-2').val());
 
 var today=new Date();
-var wedding=new Date(2020, 12, 12);
+var wedding=new Date('2020-12-12');
   
 var one_day=1000*60*60*24;
 var daysUntilWedding = Math.ceil((wedding.getTime()-today.getTime())/(one_day));
@@ -119,9 +119,7 @@ var daysUntilWedding = Math.ceil((wedding.getTime()-today.getTime())/(one_day));
 var children = 2;
 var pets = 5;
   
-var correctAnswer = daysUntilWedding + children + pets;
-  
-  debugger;
+var correctAnswer = daysUntilWedding + children + pets;  
   
 if(secondAnswer != correctAnswer.toString()) {
 incorrectAnswers++;
